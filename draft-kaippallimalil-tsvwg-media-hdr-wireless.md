@@ -74,9 +74,9 @@ The specification in {{TR.23.501-3GPP}} relies on inspecting RTP headers and usi
 
 Metadata information elements, processing and transport are the main aspects covered in this document:
 
-- Metadata information elements and processing: The parameters that constitute the metadata are inserted by the media application to convey its relative priority, delay tolerance and burst characteristics. Metadata sent in each packet also contains dynamically encoded information such as timestamp and sequence information that identify the set of packets of an MDU. The wireless network uses the metadata to handle the media flow optimally. While the metadata is inserted by the media server in the application network (originating side, for example Network-A), the metadata is only processed by the wireless network (endpoint, wireless node in terminating side, for example Network-B). Network entities on-path do not inspect UDP metadata unless configured to do so. An example of such a configuration is a policy in a 3GPP wireless node to inspect MED UDP option. Such a policy may be installed during setup of a connectivity session for an endpoint. The network in which metadata is inserted (i.e., media server in application network) is different from the network in which the metadata is used (i.e., terminating side endpoint and wireless network). {{arch}} and {{md-metadata}} cover these considerations in detail. The metadata can be used for any UDP media payload including SRTP {{?RFC3711}}, and RTP or HTTP/3 media over QUIC.
+1. Metadata information elements and processing: The parameters that constitute the metadata are inserted by the media application to convey its relative priority, delay tolerance and burst characteristics. Metadata sent in each packet also contains dynamically encoded information such as timestamp and sequence information that identify the set of packets of an MDU. The wireless network uses the metadata to handle the media flow optimally. While the metadata is inserted by the media server in the application network (originating side, for example Network-A), the metadata is only processed by the wireless network (endpoint, wireless node in terminating side, for example Network-B). Network entities on-path do not inspect UDP metadata unless configured to do so. An example of such a configuration is a policy in a 3GPP wireless node to inspect MED UDP option. Such a policy may be installed during setup of a connectivity session for an endpoint. The network in which metadata is inserted (i.e., media server in application network) is different from the network in which the metadata is used (i.e., terminating side endpoint and wireless network). {{arch}} and {{md-metadata}} cover these considerations in detail. The metadata can be used for any UDP media payload including SRTP {{?RFC3711}}, and RTP or HTTP/3 media over QUIC.
 
-- Transport of the Metadata: Transport provides a compact and efficient means for sending metadata between the source (media server) and the destination (end-host) while having a low processing overhead for insertion at the source (media server) as well as in the wireless network that retrieves and processes the metadata for each packet of the application (media) flow. In this specification, metadata is intended to be used in a limited domain ({{?RFC8799}}) for which trust for these operations have been established. An AUTH UDP option for integrity protection may be used to detect if this UDP option is modified on path. This specification does not recommend encrypting the metadata. The information conveyed in the UDP option does not contain sensitive user information. And the cost to decrypt metadata in a wireless node for each packet is significant at the time of this specification. Decryption of metadata for each packet also adds latency in packet forwarding at the wireless node. A new UDP option, MED is specified to transport the metadata and is based on extensions to UDP defined in {{!I-D.ietf-tsvwg-udp-options}}. MED provides reasonable trade-offs in terms of lookup efficiency and protocol overhead. {{md-handling}} describes transport and the MED UDP option. Some examples of deployment are provided in {{deploy}}.
+1. Transport of the Metadata: Transport provides a compact and efficient means for sending metadata between the source (media server) and the destination (end-host) while having a low processing overhead for insertion at the source (media server) as well as in the wireless network that retrieves and processes the metadata for each packet of the application (media) flow. In this specification, metadata is intended to be used in a limited domain ({{?RFC8799}}) for which trust for these operations have been established. An AUTH UDP option for integrity protection may be used to detect if this UDP option is modified on path. This specification does not recommend encrypting the metadata. The information conveyed in the UDP option does not contain sensitive user information. And the cost to decrypt metadata in a wireless node for each packet is significant at the time of this specification. Decryption of metadata for each packet also adds latency in packet forwarding at the wireless node. A new UDP option, MED is specified to transport the metadata and is based on extensions to UDP defined in {{!I-D.ietf-tsvwg-udp-options}}. MED provides reasonable trade-offs in terms of lookup efficiency and protocol overhead. {{md-handling}} describes transport and the MED UDP option. Some examples of deployment are provided in {{deploy}}.
 
 # Conventions and Definitions
 
@@ -387,6 +387,17 @@ Metadata in the MED UDP option is not sent to a wireless network that does not h
 
 If the application network that sends the media packet with MED UDP option and the wireless network that receives the UDP packet/MED option is separated by an untrusted network, the traffic is required to be encrypted across the untrusted network segment. Security gateways at the boundary of trusted networks are required to inspect and verify that the MED UDP option origin or destination is from within trusted networks. If the wireless network receives a packet with a MED UDP option from an insecure network, the MED option is deleted but the packet is forwarded.
 
+# Acknowledgments
+{:numbered="false"}
+
+Thanks to Tiru Reddy for extensive discussions on security, metadata and UDP options formats in this draft.
+
+Thanks to Dan Wing for input on security and reliability of messages for this draft.
+
+Xavier De Foy and the authors of this draft have discussed the similarities and differences of this draft with the MoQ draft for carrying media metadata.
+
+The authors wish to thank Mike Heard, Sebastian Moeller and Tom Herbert for discussions on metadata fields, fragmentation and various transport aspects.
+
 --- back
 
 # Gaps and Requirements {#gaps}
@@ -440,14 +451,3 @@ Some other solutions that can potentially be considered but have significant dis
 - GTP-extensions: A media server (or relay) that is customized for 3GPP systems sends media header extensions over the GTP-U protocol which is then used by the wireless (3GPP) router to classify packets. This solution if adopted by 3GPP (and media server implementations to support the GTP protocol) only address these issues for 3GPP systems, but not WiFi.
 
 - Key-sharing: In this case, media packet encryption keys are shared with trusted wireless providers. Wireless routers use the keys to decrypt media packets, inspect RTP or other media headers and classify for the wireless network. This method breaks end-to-end security of media packets and places very high processing demands on wireless routers to decrypt packets.
-
-# Acknowledgments
-{:numbered="false"}
-
-Thanks to Tiru Reddy for extensive discussions on security, metadata and UDP options formats in this draft.
-
-Thanks to Dan Wing for input on security and reliability of messages for this draft.
-
-Xavier De Foy and the authors of this draft have discussed the similarities and differences of this draft with the MoQ draft for carrying media metadata.
-
-The authors wish to thank Mike Heard, Sebastian Moeller and Tom Herbert for discussions on metadata fields, fragmentation and various transport aspects.
