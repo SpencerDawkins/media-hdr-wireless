@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
-category: info
+title: "Media Header Extensions for Wireless Networks"
+abbrev: "Media Header Extensions"
+category: std
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-kaippallimalil-tsvwg-media-hdr-wireless-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
