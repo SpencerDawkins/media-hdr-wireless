@@ -5,10 +5,10 @@
 Transport and Services Working Group                   J. Kaippallimalil
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                           S. Gundavelli
-Expires: 2 May 2024                                                Cisco
+Expires: 9 May 2024                                                Cisco
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                         30 October 2023
+                                                         6 November 2023
 
 
              Media Header Extensions for Wireless Networks
@@ -72,7 +72,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 May 2024.
+   This Internet-Draft will expire on 9 May 2024.
 
 Copyright Notice
 
@@ -283,7 +283,7 @@ Table of Contents
          Wireless Provider                           Applicaton Provider
     |------------------------|                           |-------------|
 
-Figure 1: Media Payload and Metadata in UDP Packet
+          Figure 1: Media Payload and Metadata in UDP Packet
 
    Figure 1 outlines the scenario where a packet containing a media
    payload from a server (e.g., a media server or relay) is sent to a
@@ -301,7 +301,7 @@ Figure 1: Media Payload and Metadata in UDP Packet
 
    The Server and on-path Wireless Node that serves the Client (wireless
    endpoint) are in two networks that may belong to the same or
-   different providers (Wireless Provider, Application Provider
+   different providers (Wireless Provider, Application Provider in
    Figure 1).  The Wireless Provider and Application Provider shares a
    trust relationship that allows entities in these networks to exchange
    media metadata.  The media metadata is used only within the Wireless
@@ -492,6 +492,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
             1        Basic - defined in this specification
             2-31     Unassigned (assignable by IANA)
 
+                        Figure 2: Profile Parameter
+
    Specifications may define a new metadata format in future using one
    of the unassigned values.
 
@@ -525,6 +527,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
                      010   medium priority
                      011   low priority
 
+                     Figure 3: Importance Parameter
+
    The application determines the priority of a packet in terms of how
    critical the loss of packets of an MDU is for a destination/decoding
    end.  Some media frames may be extremely important but not as
@@ -557,6 +561,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
           |        Data Burst Size        |
           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+                       Figure 4: Burst Size Parameter
+
    If the value is set to "zero", it indicates that the application does
    not provide the size of the data burst.  All other values indicate
    the actual size of the data burst in bytes up to a maximum of 2^16
@@ -575,6 +581,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
              |     Delay     |
              +-+-+-+-+-+-+-+-+
 
+                      Figure 5: Delay Budget Parameter
+
    The delay budget along with data burst and importance (priority) is
    used to convey to the wireless network in advance the duration of
    time over which the burst of packets is sent.  This can allow the
@@ -592,6 +600,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
              +-+-+-+-+-+-+-+-+
              | MDU Sequence  |
              +-+-+-+-+-+-+-+-+
+
+                      Figure 6: MDU Sequence Parameter
 
    The wireless network uses this field to provide consistent treatment
    to the set of packets that belong to the same MDU.  In some cases,
@@ -616,6 +626,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
           |         Packet Counter        |
           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+                     Figure 7: Packet Counter Parameter
+
    The delay between subsequent packets of an MDU may be averaged or
    otherwise used to extrapolate jitter in the arrival stream at the
    wireless node.
@@ -635,6 +647,8 @@ Figure 1: Media Payload and Metadata in UDP Packet
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        |                        Timestamp (usec)                       |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+                     Figure 8: Timestamp Parameter
 
    A pair of timestamps S2 and S1 represent a time interval between them
    of (S2 - S1) that have sequential Packet counter values.  The
@@ -694,7 +708,7 @@ Figure 1: Media Payload and Metadata in UDP Packet
    protection in network scenarios that need it.
 
    A new UDP option, MED, that conforms to [I-D.ietf-tsvwg-udp-options]
-   is defined to carry media metadata.  Figure 2 shows the parameters in
+   is defined to carry media metadata.  Figure 9 shows the parameters in
    the MED UDP option.  The Kind value for this option is (TBD - IANA
    assigned).  The MED option is a SAFE option as it does not alter the
    UDP data payload in any manner and should therefore be assigned a
@@ -716,7 +730,7 @@ Figure 1: Media Payload and Metadata in UDP Packet
        |           Timestamp           |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-Figure 2: MED UDP Option
+                       Figure 9: MED UDP Option
 
    The MED UDP option in this specification has a size of 18 bytes.  In
    this specification, the Profile option MUST be set to "1".  Following
@@ -779,7 +793,7 @@ Figure 2: MED UDP Option
 
                                   /======/ UDP Packet with MED option
 
-   Figure 3: Server and Wireless entity in Data Center
+            Figure 10: Server and Wireless entity in Data Center
 
    The UDP MED option is inserted by the Application Server and
    forwarded.  The networks in the App Provider and Wireless Network
@@ -810,7 +824,7 @@ Figure 2: MED UDP Option
 
                                     /======/ UDP Packet with MED option
 
-   Figure 4: Security Gateways between Server and Wireless network
+      Figure 11: Security Gateways between Server and Wireless network
 
    As in Section 6.1, the UDP MED option is inserted by the Application
    Server and forwarded.  The security gateways encrypt the packet
@@ -844,7 +858,7 @@ Figure 2: MED UDP Option
 
                               /-----/ inner packet with media data
 
-   Figure 5: MED UDP Option in Outer Tunnel
+                 Figure 12: MED UDP Option in Outer Tunnel
 
    The MED option is carried in the outer tunnel from the Application
    Provider and is terminated at the Wireless Network Provider.  The
