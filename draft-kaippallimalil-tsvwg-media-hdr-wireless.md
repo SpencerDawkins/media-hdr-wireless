@@ -108,19 +108,18 @@ The following terms are used in this document:
 
          Wireless Provider                           Applicaton Provider
     |------------------------|                           |-------------|
-
-Figure 1: Media Payload and Metadata in UDP Packet
 ~~~~~~~~
+{: #payload-and-metadata title="Media Payload and Metadata in UDP Packet"}
 
-Figure 1 outlines the scenario where a packet containing a media payload from a server (e.g., a media server or relay) is sent to a client (i.e., a wireless endpoint). Media metadata is carried along with the packet payload in UDP option MED. The Server in an Application Provider network sends media packets (UDP payload) and metadata (UDP option) to the Client (end-host) attached to Wireless Provider network. The Wireless Node is responsible for forwarding packets to the Client over the Wireless Network. The Wireless Node inspects metadata but does not alter the UDP option. The Client (UDP destination) may use timestamps for determining one way delay, received / dropped packets and other statistics that can be fed back to the Server. The Server may in turn adjust the sending rate and media quality (codec) based on the feedback.
+{{payload-and-metadata}} outlines the scenario where a packet containing a media payload from a server (e.g., a media server or relay) is sent to a client (i.e., a wireless endpoint). Media metadata is carried along with the packet payload in UDP option MED. The Server in an Application Provider network sends media packets (UDP payload) and metadata (UDP option) to the Client (end-host) attached to Wireless Provider network. The Wireless Node is responsible for forwarding packets to the Client over the Wireless Network. The Wireless Node inspects metadata but does not alter the UDP option. The Client (UDP destination) may use timestamps for determining one way delay, received / dropped packets and other statistics that can be fed back to the Server. The Server may in turn adjust the sending rate and media quality (codec) based on the feedback.
 
-The Server and on-path Wireless Node that serves the Client (wireless endpoint) are in two networks that may belong to the same or different providers (Wireless Provider, Application Provider Figure 1). The Wireless Provider and Application Provider shares a trust relationship that allows entities in these networks to exchange media metadata. The media metadata is used only within the Wireless Provider and Application Provider. The wireless and application provider networks are part of a trusted domain (e.g., as outlined in {{?RFC8799}}). Public key and trust anchors within each provider network have the ability to perform operations to authorize, enroll, and manage nodes with specific policy and roles (i.e., Server, Wireless node, gateways) for managing media metadata handling in a secure manner. When the application (Server, UDP source) and wireless network are not directly connected, a secure overlay network with encryption MUST be used between the two domains.
+The Server and on-path Wireless Node that serves the Client (wireless endpoint) are in two networks that may belong to the same or different providers (Wireless Provider, Application Provider in {{payload-and-metadata}}). The Wireless Provider and Application Provider shares a trust relationship that allows entities in these networks to exchange media metadata. The media metadata is used only within the Wireless Provider and Application Provider. The wireless and application provider networks are part of a trusted domain (e.g., as outlined in {{?RFC8799}}). Public key and trust anchors within each provider network have the ability to perform operations to authorize, enroll, and manage nodes with specific policy and roles (i.e., Server, Wireless node, gateways) for managing media metadata handling in a secure manner. When the application (Server, UDP source) and wireless network are not directly connected, a secure overlay network with encryption MUST be used between the two domains.
 
-It is assumed here that the Server and Client in Figure 1 have completed signaling to setup the media session (e.g., using SDP, HTTP) prior to sending media packets. The UDP source (i.e., Server) is responsible for inserting relevant metadata based on the media content of the packet and using the metadata format specified in {{md-metadata}}. The metadata in the UDP option is inspected and used by the Wireless Node (e.g., a 3GPP UPF) to classify using metadata in the packet along with other network policies. The metadata and its transport is designed to be efficient in processing and byte overhead per packet. The metadata is expected to work with any UDP media transport including RTP, SRTP and QUIC. Metadata parameters are encoded in binary format for compact representation. Details are in {{md-metadata}}.
+It is assumed here that the Server and Client in {{payload-and-metadata}} have completed signaling to setup the media session (e.g., using SDP, HTTP) prior to sending media packets. The UDP source (i.e., Server) is responsible for inserting relevant metadata based on the media content of the packet and using the metadata format specified in {{md-metadata}}. The metadata in the UDP option is inspected and used by the Wireless Node (e.g., a 3GPP UPF) to classify using metadata in the packet along with other network policies. The metadata and its transport is designed to be efficient in processing and byte overhead per packet. The metadata is expected to work with any UDP media transport including RTP, SRTP and QUIC. Metadata parameters are encoded in binary format for compact representation. Details are in {{md-metadata}}.
 
 The Wireless Node only inspects packets for which a rule to inspect metadata is present. The rule in the Wireless Provider may be based on the source address (e.g., inspect for servers in Application Provider) or it may be based on service to the Client (e.g., Client has a service agreement with the Wireless Provider). This configuration happens out of band and prior to the media packet exchange and details are not covered in this document. When there are insecure network segments in between, all packets that carry the metadata in the MED UDP option must be secured with encryption between these segments (e.g., secure GRE/VXLAN or MASQUE tunnel). {{deploy}} describes a few common deployments.
 
-The application server (Server in Figure 1) is responsible for inserting the metadata in the UDP option. The application server determines the importance and other metadata parameters based on the type of media encoded as well other information (e.g., configured information on destination wireless network, live feedback from the session). The application server encrypts the payload (i.e., media content) in the UDP packet and adds the MED UDP option to be used in the Wireless Provider (Client and Wireless Node). Other network entities on-path do not process the UDP option. A flow with the MED option can transit an insecure network in between only by encrypting the entire flow (e.g., in an encrypted tunnel between to security gateways). Inspection (e.g., by a security gateway) at the boundary of a trust domain will remove the MED option if it arrives from an untrusted network segment. The Wireless Node receives the UDP packet, inspects the metadata in the UDP option and applies local policies to the metadata to derive optimal scheduling and forwarding on the wireless path. The Wireless Node does not examine the content of the packet which may use various encrypted application transports like SRTP cryptex, HTTP/3 and may have variable number of media streams.
+The application server (Server in {{payload-and-metadata}}) is responsible for inserting the metadata in the UDP option. The application server determines the importance and other metadata parameters based on the type of media encoded as well other information (e.g., configured information on destination wireless network, live feedback from the session). The application server encrypts the payload (i.e., media content) in the UDP packet and adds the MED UDP option to be used in the Wireless Provider (Client and Wireless Node). Other network entities on-path do not process the UDP option. A flow with the MED option can transit an insecure network in between only by encrypting the entire flow (e.g., in an encrypted tunnel between to security gateways). Inspection (e.g., by a security gateway) at the boundary of a trust domain will remove the MED option if it arrives from an untrusted network segment. The Wireless Node receives the UDP packet, inspects the metadata in the UDP option and applies local policies to the metadata to derive optimal scheduling and forwarding on the wireless path. The Wireless Node does not examine the content of the packet which may use various encrypted application transports like SRTP cryptex, HTTP/3 and may have variable number of media streams.
 
 # Media Metadata {#md-metadata}
 Media packets are encoded and formatted to enable efficient and reliable processing of the data at both the encoding and decoding endpoints. Media may consist of audio, live video, static pictures and overlaid objects among others. Each of these may have different tolerance to delays in the network, resiliency (i.e., the ability to recover from loss) or subjective importance (e.g., a loss of a video base layer I-frame packets is more significant than enhanced layer P-frame). Media encoding is evolving continually and modern codecs use complex prediction structures and make various dynamic decisions in the encoding process. However, there are differences in priority, delay and acceptable loss across sets of packets that form a Media Data Unit (MDU).
@@ -161,6 +160,8 @@ This parameter allows for more metadata profiles to be carried by the MED UDP op
          1        Basic - defined in this specification
          2-31     Unassigned (assignable by IANA)
 ~~~~~~~~
+{: #profile-parm title="Profile Parameter"}
+
 Specifications may define a new metadata format in future using one of the unassigned values.
 
 ### Importance {#import}
@@ -189,6 +190,7 @@ Importance represents the media characteristics of the set of packets that that 
                     010   medium priority
                     011   low priority
 ~~~~~~~~
+{: #import-parm title="Importance Parameter"}
 
 The application determines the priority of a packet in terms of how critical the loss of packets of an MDU is for a destination/decoding end. Some media frames may be extremely important but not as sensitive to delay, others may be important and should be delivered even past a delay deadline. There are various other factors such as packets with medium or lower priority and varying tolerance for delay that need to be considered.
 
@@ -204,6 +206,7 @@ The data burst field represents the number of byptes of data in a continuous bur
        |        Data Burst Size        |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~
+{: #burst-parm title="Burst Size Parameter"}
 
 If the value is set to "zero", it indicates that the application does not provide the size of the data burst. All other values indicate the actual size of the data burst in bytes up to a maximum of 2^16 bytes. The wireless node keeps track of the number of bytes in each packet payload to determine the total number of bytes in a burst.
 
@@ -217,6 +220,7 @@ The delay budget represents an upper bound in milliseconds between the reception
           |     Delay     |
           +-+-+-+-+-+-+-+-+
 ~~~~~~~~
+{: #delay-parm title="Delay Budget Parameter"}
 
 The delay budget along with data burst and importance (priority) is used to convey to the wireless network in advance the duration of time over which the burst of packets is sent. This can allow the wireless scheduler to plan for the appropriate level of resources.
 
@@ -230,6 +234,7 @@ The Media Data Unit (MDU) sequence is a cyclical counter that has the same value
           | MDU Sequence  |
           +-+-+-+-+-+-+-+-+
 ~~~~~~~~
+{: #sequence-parm title="MDU Sequence Parameter"}
 
 The wireless network uses this field to provide consistent treatment to the set of packets that belong to the same MDU. In some cases, based on the priority and tolerance to delay and loss, the wireless network may delay or drop the sequence of packets that has the same MDU sequence value. An MDU sequence of 8-bits means that there can be up to 256 (2^8) concurrent MDU sequences for a UDP source/destination pair that a wireless network can distinguish.
 
@@ -245,6 +250,7 @@ This parameter provides a counter starting at "0" that is incremented for each s
        |         Packet Counter        |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~
+{: #pkt-cnt-parm title="Packet Counter Parameter"}
 
 The delay between subsequent packets of an MDU may be averaged or otherwise used to extrapolate jitter in the arrival stream at the wireless node.
 
@@ -260,6 +266,7 @@ Timestamp filed contains the wall clock time (absolute date and time) of transmi
       |                        Timestamp (usec)                       |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~
+{: #timestamp-parm title="Timestamp Parameter"}
 
 A pair of timestamps S2 and S1 represent a time interval between them of (S2 - S1) that have sequential Packet counter values. The transmission time contained in the field may be used for network jitter calculations.
 
@@ -273,7 +280,7 @@ The wireless node that receives metadata in the UDP MED option should verify tha
 ### Metadata Transport {#md-transport}
 Metadata between the application and wireless network is sent in each media packet to allow the wireless network to classify the group of packets of an MDU for consistent congestion and QoS handling over the wireless link. The wireless network enhances QoS handling for low latency media that uses UDP transport (RTP, SRTP, QUIC) to deliver media. Media protocols (RTP, QUIC) are not fragmented and thus the UDP option with metadata is carried in each packet. The media payload is limited in size to allow the addition of the MED and AUTH UDP options within the UDP packet and not exceed the MTU. The metadata is used by the wireless node and endpoint (client) in the destination network and therefore it is not the intention that all network nodes on path should parse this metadata. Considering end-to-end performance of the flow, the effort in-network to parse the metadata and classify the packet should be as low as possible. Additional considerations include the ease with which an application can encode the metadata in a transport header, compactness of the metadata as this is applied per packet, and the security of the metadata itself (not unique to wireless networks). In this specification, the media metadata is transported in UDP options. UDP transport of metadata is efficient and applicable to not only HTTP/3 media but also RTP/SRTP for any further extensions related to wireless networks. The end-to-end architecture considered in this specification is limited to trusted networks, or the use of security gateways over an insecure network in between. This specification does not require encryption of the metadata however the AUTH UDP option may be used for integrity protection in network scenarios that need it. This specification does not require encryption of the metadata, however the AUTH UDP option may be used for integrity protection in network scenarios that need it.
 
-A new UDP option, MED, that conforms to {{!I-D.ietf-tsvwg-udp-options}} is defined to carry media metadata. Figure 2 shows the parameters in the MED UDP option. The Kind value for this option is (TBD - IANA assigned). The MED option is a SAFE option as it does not alter the UDP data payload in any manner and should therefore be assigned a value in the 0..191 range as defined in {{!I-D.ietf-tsvwg-udp-options}}. The length of this option can be variable since another specification can define a new media "Profile" of a different length.
+A new UDP option, MED, that conforms to {{!I-D.ietf-tsvwg-udp-options}} is defined to carry media metadata. {{med-udp-opt}} shows the parameters in the MED UDP option. The Kind value for this option is (TBD - IANA assigned). The MED option is a SAFE option as it does not alter the UDP data payload in any manner and should therefore be assigned a value in the 0..191 range as defined in {{!I-D.ietf-tsvwg-udp-options}}. The length of this option can be variable since another specification can define a new media "Profile" of a different length.
 
 ~~~~~~~~
         0                   1                   2                   3
@@ -289,9 +296,8 @@ A new UDP option, MED, that conforms to {{!I-D.ietf-tsvwg-udp-options}} is defin
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        |           Timestamp           |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-Figure 2: MED UDP Option
 ~~~~~~~~
+{: #med-udp-opt title="MED UDP Option"}
 
 The MED UDP option in this specification has a size of 18 bytes. In this specification, the Profile option MUST be set to "1". Following the length field, 3 bits are left reserved (RES) for future use. The MDU sequence indicates the set of media data unit packets of the UDP/IP datagram 5-tuple). The MDU sequence value should be the same for all packets that form a media data unit (MDU) Other UDP/IP datagrams (e.g., from the same server to another client) that have the same value of MDU sequence represents a different MDU set. The Importance of a packet includes its priority relative to other MDUs of the same UDP/IP datagram (5-tuple). The Timestamp value in this option represents the transmission time of the packet and along with Packet counter may be used to derive latency and jitter information. For a media flow/sequence identified by IP 5-tuple, the MDU sequence is incremented for every subsequent MDU. The Packet counter represents a sequence of packets of an MDU and may be used along with timestamps to derive jitter. The wireless node does not attempt to sequence packets arriving out of order using the Packet counter. The Data burst when provided indicates the number of bytes of the MDU and this value remains the same for all packets of the MDU. The Delay field conveys the upper bound in milliseconds between the reception of the first packet of the MDU to the last packet of the MDU. All packets of an MDU have the same value of Delay.
 
@@ -318,9 +324,8 @@ In this deployment scenario, the UDP source (i.e., App Server) and the wireless 
                                              Data Center
 
                                /======/ UDP Packet with MED option
-
-Figure 3: Server and Wireless entity in Data Center
 ~~~~~~~~
+{: #dc-deploy-diagram title="Server and Wireless entity in Data Center"}
 
 The UDP MED option is inserted by the Application Server and forwarded. The networks in the App Provider and Wireless Network Provider are within the boundaries of the trust domain. The Wireless Node processes the metadata in the MED UDP option and forwards the packet to the client (wireless endpoint). The MED UDP option is used by the wireless node to prioritize sets of packets (MDU), and may use the classification for packets of an MDU to share the same QoS and congestion handling in the wireless network.
 
@@ -340,9 +345,8 @@ In this deployment scenario, the UDP sender (i.e, App Server) and the wireless n
                                       Secure Tunnel
 
                                  /======/ UDP Packet with MED option
-
-Figure 4: Security Gateways between Server and Wireless network
 ~~~~~~~~
+{: #sec-gw-deploy-diagram title="Security Gateways between Server and Wireless network"}
 
 As in {{dc-deploy}}, the UDP MED option is inserted by the Application Server and forwarded. The security gateways encrypt the packet across the insecure network segment. The Wireless Node processes the metadata in the MED UDP option and forwards the packet to the client (wireless endpoint). The MED UDP option is used by the wireless node to prioritize sets of packets (MDU), and may use the classification for packets of an MDU to share the same QoS and congestion handling in the wireless network.
 
@@ -365,9 +369,8 @@ In this deployment scenario, the UDP sender (i.e, App Server) and the wireless n
                            O_____O outer UDP with MED option
 
                            /-----/ inner packet with media data
-
-Figure 5: MED UDP Option in Outer Tunnel
 ~~~~~~~~
+{: #outer-option-diagram title="MED UDP Option in Outer Tunnel"}
 
 The MED option is carried in the outer tunnel from the Application Provider and is terminated at the Wireless Network Provider. The Wireless Node examines the MED UDP option for classifying the packet and forwards the inner packet to the client (inner UDP destination). The inner media packet does not have to use UDP transport. For example, RTSP (Real-Time Streaming Protocol) or HLS (HTTP Live Streaming) using TCP transport may have an outer UDP encapsulation with the MED option. The MED UDP option is used by the wireless node to prioritize sets of packets (MDU), and may use the classification for packets of an MDU to share the same QoS and congestion handling in the wireless network.
 
