@@ -5,10 +5,10 @@
 Transport and Services Working Group                   J. Kaippallimalil
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                           S. Gundavelli
-Expires: 9 May 2024                                                Cisco
+Expires: 21 June 2024                                              Cisco
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                         6 November 2023
+                                                        19 December 2023
 
 
              Media Header Extensions for Wireless Networks
@@ -72,7 +72,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 May 2024.
+   This Internet-Draft will expire on 21 June 2024.
 
 Copyright Notice
 
@@ -105,7 +105,7 @@ Table of Contents
        5.2.6.  Packet Counter
        5.2.7.  Timestamp
      5.3.  Metadata Handling
-       5.3.1.  Metadata Transport
+     5.4.  Metadata Transport
    6.  Common Deployments
      6.1.  Data Center Deployment
      6.2.  Security Gateways
@@ -675,7 +675,7 @@ Table of Contents
    has a trust relationship.  The metadata is used to prioritize, defer
    or drop packets of an MDU when radio resources are limited.
 
-5.3.1.  Metadata Transport
+5.4.  Metadata Transport
 
    Metadata between the application and wireless network is sent in each
    media packet to allow the wireless network to classify the group of
@@ -940,9 +940,9 @@ Normative References
 
    [I-D.ietf-tsvwg-udp-options]
               Touch, J. D., "Transport Options for UDP", Work in
-              Progress, Internet-Draft, draft-ietf-tsvwg-udp-options-23,
-              15 September 2023, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-tsvwg-udp-options-23>.
+              Progress, Internet-Draft, draft-ietf-tsvwg-udp-options-28,
+              17 November 2023, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-tsvwg-udp-options-28>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1115,10 +1115,10 @@ B.1.  Media Metadata Inserted By Media Application
    network.  Since media headers are encrypted, the application would
    provide this information in a header that the wireless node can
    inspect.  One option is to send the metadata in a new UDP option and
-   this is described in the main body of this document (see
-   Section 5.3.1 for UDP transport details).  Another option is to
-   transport the metadata in a MASQUE tunnel between the media/
-   application server and the wireless router.
+   this is described in the main body of this document (see Section 5.4
+   for UDP transport details).  Another option is to transport the
+   metadata in a MASQUE tunnel between the media/application server and
+   the wireless router.
 
    Both approaches (new UDP option, MASQUE tunnel) can use the metadata
    defined in Section 5.2 and the main difference is how the metadata is

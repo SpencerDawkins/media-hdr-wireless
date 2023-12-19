@@ -12,26 +12,26 @@
        Wireless networks like 5G cellular or Wi-Fi experience significant variations in link capacity over short intervals due to wireless channel conditions, interference, or the end-user's movement. These variations in capacity take place in the order of hundreds of milliseconds and is much too fast for end-to-end congestion signaling by itself to convey the changes for an application to adapt. Media applications on the other hand demand both high throughput and low latency, and can dynamically adjust the size and quality of a stream to match available network bandwidth. However, catering to such media flows over a radio link with rapid changes in capacity requires the buffers and congestion to be managed carefully. This draft proposes to provide metadata about the media transported in each packet to allow the wireless network to manage radio resources optimally and to maximize network utilization while also improving application performance. 
        This draft discusses potential solution options to this problem and the trade-offs involved. The draft then defines a new UDP option to carry media metadata between a UDP source and destination. This metadata is designed to be minimal, compact and has low processing overhead per-packet for encoding and retrieval. 
     " name="description">
-<meta content="xml2rfc 3.18.2" name="generator">
+<meta content="xml2rfc 3.19.0" name="generator">
 <meta content="Media" name="keyword">
 <meta content="Low Latency" name="keyword">
 <meta content="Wireless Links" name="keyword">
 <meta content="draft-kaippallimalil-tsvwg-media-hdr-wireless-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.2
+  xml2rfc 3.19.0
     Python 3.11.6
-    ConfigArgParse 1.5.3
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.1.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.9
+    wcwidth 0.2.12
 -->
 <link href="draft-kaippallimalil-tsvwg-media-hdr-wireless.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1030,11 +1030,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Media Header Extensions</td>
-<td class="right">November 2023</td>
+<td class="right">December 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Kaippallimalil, et al.</td>
-<td class="center">Expires 9 May 2024</td>
+<td class="center">Expires 21 June 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-kaippallimalil-tsvwg-media-hdr-wireless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-06" class="published">6 November 2023</time>
+<time datetime="2023-12-19" class="published">19 December 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-09">9 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-06-21">21 June 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 June 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1186,11 +1186,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-metadata-handling" class="internal xref">Metadata Handling</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
-                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-metadata-transport" class="internal xref">Metadata Transport</a></p>
 </li>
-                </ul>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-metadata-transport" class="internal xref">Metadata Transport</a></p>
 </li>
             </ul>
 </li>
@@ -1568,16 +1566,18 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-5.3-1">Metadata in this specification consists of the set of parameters in <a href="#metadata-parms" class="auto internal xref">Section 5.2</a> and always uses Profile value of "1".<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">The application server (UDP source) inserts the metadata into each packet. The application server should only prepare metadata in UDP MED option if the UDP destination belongs to a wireless network that has a trust relationship with the application network. Importance, data burst and delay budget parameters are the same for all packets of an MDU (identified by an MDU sequence value for the UDP source/destination). The timestamp indicates the sending time of each packet while the packet counter is incremented for each packet in an MDU.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">The wireless node that receives metadata in the UDP MED option should verify that it originated from an application network with which it has a trust relationship. The metadata is used to prioritize, defer or drop packets of an MDU when radio resources are limited.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 <div id="md-transport">
-<section id="section-5.3.1">
-          <h4 id="name-metadata-transport">
-<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-metadata-transport" class="section-name selfRef">Metadata Transport</a>
-          </h4>
-<p id="section-5.3.1-1">Metadata between the application and wireless network is sent in each media packet to allow the wireless network to classify the group of packets of an MDU for consistent congestion and QoS handling over the wireless link. The wireless network enhances QoS handling for low latency media that uses UDP transport (RTP, SRTP, QUIC) to deliver media. Media protocols (RTP, QUIC) are not fragmented and thus the UDP option with metadata is carried in each packet. The media payload is limited in size to allow the addition of the MED and AUTH UDP options within the UDP packet and not exceed the MTU. The metadata is used by the wireless node and endpoint (client) in the destination network and therefore it is not the intention that all network nodes on path should parse this metadata. Considering end-to-end performance of the flow, the effort in-network to parse the metadata and classify the packet should be as low as possible. Additional considerations include the ease with which an application can encode the metadata in a transport header, compactness of the metadata as this is applied per packet, and the security of the metadata itself (not unique to wireless networks). In this specification, the media metadata is transported in UDP options. UDP transport of metadata is efficient and applicable to not only HTTP/3 media but also RTP/SRTP for any further extensions related to wireless networks. The end-to-end architecture considered in this specification is limited to trusted networks, or the use of security gateways over an insecure network in between. This specification does not require encryption of the metadata however the AUTH UDP option may be used for integrity protection in network scenarios that need it. This specification does not require encryption of the metadata, however the AUTH UDP option may be used for integrity protection in network scenarios that need it.<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.1-2">A new UDP option, MED, that conforms to <span>[<a href="#I-D.ietf-tsvwg-udp-options" class="cite xref">I-D.ietf-tsvwg-udp-options</a>]</span> is defined to carry media metadata. <a href="#med-udp-opt" class="auto internal xref">Figure 9</a> shows the parameters in the MED UDP option. The Kind value for this option is (TBD - IANA assigned). The MED option is a SAFE option as it does not alter the UDP data payload in any manner and should therefore be assigned a value in the 0..191 range as defined in <span>[<a href="#I-D.ietf-tsvwg-udp-options" class="cite xref">I-D.ietf-tsvwg-udp-options</a>]</span>. The length of this option can be variable since another specification can define a new media "Profile" of a different length.<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
+<section id="section-5.4">
+        <h3 id="name-metadata-transport">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-metadata-transport" class="section-name selfRef">Metadata Transport</a>
+        </h3>
+<p id="section-5.4-1">Metadata between the application and wireless network is sent in each media packet to allow the wireless network to classify the group of packets of an MDU for consistent congestion and QoS handling over the wireless link. The wireless network enhances QoS handling for low latency media that uses UDP transport (RTP, SRTP, QUIC) to deliver media. Media protocols (RTP, QUIC) are not fragmented and thus the UDP option with metadata is carried in each packet. The media payload is limited in size to allow the addition of the MED and AUTH UDP options within the UDP packet and not exceed the MTU. The metadata is used by the wireless node and endpoint (client) in the destination network and therefore it is not the intention that all network nodes on path should parse this metadata. Considering end-to-end performance of the flow, the effort in-network to parse the metadata and classify the packet should be as low as possible. Additional considerations include the ease with which an application can encode the metadata in a transport header, compactness of the metadata as this is applied per packet, and the security of the metadata itself (not unique to wireless networks). In this specification, the media metadata is transported in UDP options. UDP transport of metadata is efficient and applicable to not only HTTP/3 media but also RTP/SRTP for any further extensions related to wireless networks. The end-to-end architecture considered in this specification is limited to trusted networks, or the use of security gateways over an insecure network in between. This specification does not require encryption of the metadata however the AUTH UDP option may be used for integrity protection in network scenarios that need it. This specification does not require encryption of the metadata, however the AUTH UDP option may be used for integrity protection in network scenarios that need it.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">A new UDP option, MED, that conforms to <span>[<a href="#I-D.ietf-tsvwg-udp-options" class="cite xref">I-D.ietf-tsvwg-udp-options</a>]</span> is defined to carry media metadata. <a href="#med-udp-opt" class="auto internal xref">Figure 9</a> shows the parameters in the MED UDP option. The Kind value for this option is (TBD - IANA assigned). The MED option is a SAFE option as it does not alter the UDP data payload in any manner and should therefore be assigned a value in the 0..191 range as defined in <span>[<a href="#I-D.ietf-tsvwg-udp-options" class="cite xref">I-D.ietf-tsvwg-udp-options</a>]</span>. The length of this option can be variable since another specification can define a new media "Profile" of a different length.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 <span id="name-med-udp-option"></span><div id="med-udp-opt">
 <figure id="figure-9">
-            <div class="alignLeft art-text artwork" id="section-5.3.1-3.1">
+          <div class="alignLeft art-text artwork" id="section-5.4-3.1">
 <pre>
         0                   1                   2                   3
         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -1596,13 +1596,11 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-med-udp-option" class="selfRef">MED UDP Option</a>
-            </figcaption></figure>
+          </figcaption></figure>
 </div>
-<p id="section-5.3.1-4">The MED UDP option in this specification has a size of 18 bytes. In this specification, the Profile option <span class="bcp14">MUST</span> be set to "1". Following the length field, 3 bits are left reserved (RES) for future use. The MDU sequence indicates the set of media data unit packets of the UDP/IP datagram 5-tuple). The MDU sequence value should be the same for all packets that form a media data unit (MDU) Other UDP/IP datagrams (e.g., from the same server to another client) that have the same value of MDU sequence represents a different MDU set. The Importance of a packet includes its priority relative to other MDUs of the same UDP/IP datagram (5-tuple). The Timestamp value in this option represents the transmission time of the packet and along with Packet counter may be used to derive latency and jitter information. For a media flow/sequence identified by IP 5-tuple, the MDU sequence is incremented for every subsequent MDU. The Packet counter represents a sequence of packets of an MDU and may be used along with timestamps to derive jitter. The wireless node does not attempt to sequence packets arriving out of order using the Packet counter. The Data burst when provided indicates the number of bytes of the MDU and this value remains the same for all packets of the MDU. The Delay field conveys the upper bound in milliseconds between the reception of the first packet of the MDU to the last packet of the MDU. All packets of an MDU have the same value of Delay.<a href="#section-5.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.3.1-5">The UDP source (application server) <span class="bcp14">MUST NOT</span> add the UDP MED option if the UDP destination (wireless client) does not belong to a wireless network that has a trust relationship with the application network. The wireless network <span class="bcp14">MUST NOT</span> use metadata in the UDP MED option of the UDP source (application server) does not belong to an application network that has a trust relationship with it. The wireless network <span class="bcp14">MUST NOT</span> remove the UDP MED option when forwarding the packet to the wireless node.<a href="#section-5.3.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.3.1-6">A security gateway at the boundary of an application network or wireless network that share a trust relationship should inspect the UDP MED option to ensure that the origin/destination network comply with the policies of the domain.<a href="#section-5.3.1-6" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-5.4-4">The MED UDP option in this specification has a size of 18 bytes. In this specification, the Profile option <span class="bcp14">MUST</span> be set to "1". Following the length field, 3 bits are left reserved (RES) for future use. The MDU sequence indicates the set of media data unit packets of the UDP/IP datagram 5-tuple). The MDU sequence value should be the same for all packets that form a media data unit (MDU) Other UDP/IP datagrams (e.g., from the same server to another client) that have the same value of MDU sequence represents a different MDU set. The Importance of a packet includes its priority relative to other MDUs of the same UDP/IP datagram (5-tuple). The Timestamp value in this option represents the transmission time of the packet and along with Packet counter may be used to derive latency and jitter information. For a media flow/sequence identified by IP 5-tuple, the MDU sequence is incremented for every subsequent MDU. The Packet counter represents a sequence of packets of an MDU and may be used along with timestamps to derive jitter. The wireless node does not attempt to sequence packets arriving out of order using the Packet counter. The Data burst when provided indicates the number of bytes of the MDU and this value remains the same for all packets of the MDU. The Delay field conveys the upper bound in milliseconds between the reception of the first packet of the MDU to the last packet of the MDU. All packets of an MDU have the same value of Delay.<a href="#section-5.4-4" class="pilcrow">¶</a></p>
+<p id="section-5.4-5">The UDP source (application server) <span class="bcp14">MUST NOT</span> add the UDP MED option if the UDP destination (wireless client) does not belong to a wireless network that has a trust relationship with the application network. The wireless network <span class="bcp14">MUST NOT</span> use metadata in the UDP MED option of the UDP source (application server) does not belong to an application network that has a trust relationship with it. The wireless network <span class="bcp14">MUST NOT</span> remove the UDP MED option when forwarding the packet to the wireless node.<a href="#section-5.4-5" class="pilcrow">¶</a></p>
+<p id="section-5.4-6">A security gateway at the boundary of an application network or wireless network that share a trust relationship should inspect the UDP MED option to ensure that the origin/destination network comply with the policies of the domain.<a href="#section-5.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1763,7 +1761,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <dd class="break"></dd>
 <dt id="I-D.ietf-tsvwg-udp-options">[I-D.ietf-tsvwg-udp-options]</dt>
         <dd>
-<span class="refAuthor">Touch, J. D.</span>, <span class="refTitle">"Transport Options for UDP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-udp-options-23</span>, <time datetime="2023-09-15" class="refDate">15 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-udp-options-23">https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-udp-options-23</a>&gt;</span>. </dd>
+<span class="refAuthor">Touch, J. D.</span>, <span class="refTitle">"Transport Options for UDP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-udp-options-28</span>, <time datetime="2023-11-17" class="refDate">17 November 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-udp-options-28">https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-udp-options-28</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -1864,7 +1862,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-media-metadata-inserted-by-">
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-media-metadata-inserted-by-" class="section-name selfRef">Media Metadata Inserted By Media Application</a>
         </h3>
-<p id="appendix-B.1-1">In this case the wireless router inspects metadata inserted by the media application and uses it for classification in the wireless network. Since media headers are encrypted, the application would provide this information in a header that the wireless node can inspect. One option is to send the metadata in a new UDP option and this is described in the main body of this document (see <a href="#md-transport" class="auto internal xref">Section 5.3.1</a> for UDP transport details). Another option is to transport the metadata in a MASQUE tunnel between the media/application server and the wireless router.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-1">In this case the wireless router inspects metadata inserted by the media application and uses it for classification in the wireless network. Since media headers are encrypted, the application would provide this information in a header that the wireless node can inspect. One option is to send the metadata in a new UDP option and this is described in the main body of this document (see <a href="#md-transport" class="auto internal xref">Section 5.4</a> for UDP transport details). Another option is to transport the metadata in a MASQUE tunnel between the media/application server and the wireless router.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-B.1-2">Both approaches (new UDP option, MASQUE tunnel) can use the metadata defined in <a href="#metadata-parms" class="auto internal xref">Section 5.2</a> and the main difference is how the metadata is transported between server/wireless router/endpoint. The UDP option in this draft requires wireless and application networks to be deployed across networks with a degree of trust to exchange the metadata parameters. If the application and wireless network are not directly connected, a secure overlay network with encryption is necessary between the two domains. The packet that arrives at the wireless router contains metadata in the original form (i.e., all packets decrypted after exiting the overlay network). The demands on processing the metadata per packet by the wireless router are minimal as a result.<a href="#appendix-B.1-2" class="pilcrow">¶</a></p>
 <p id="appendix-B.1-3">The transport of metadata MASQUE is similar, however it is encrypted end-to-end and terminated at the wireless router. The end-to-end encryption provides an inherently safe transmission of metadata but the wireless router has to decrypt the metadata in the MASQUE tunnel to process it. This can have a significant impact to performance/delay in classifying each packet. The MASQUE approach also requires the setup of the tunnel by the wireless router at the beginning of the media session which is additional configuration overhead (i.e., determining which upstream flows should trigger the initiation of the MASQUE tunnel).<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
 <p id="appendix-B.1-4">Metadata used by the wireless router to classify packets into MDUs of different priorities, delay tolerance is used by the wireless network to optimize handling but the feedback from the client/endpoint back to the server (e.g., via RTCP) can skew the behavior/sending rate of the server. For example, if a wireless network drops an entire media frame due to transient lack of bandwidth and this is reported back to the server, it should not be misunderstood by the server as extreme congestion and a subsequent reduction of sending rate. This is perhaps not what is desired to manage transient changes in bandwidth.<a href="#appendix-B.1-4" class="pilcrow">¶</a></p>
