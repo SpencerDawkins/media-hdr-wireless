@@ -5,10 +5,10 @@
 Transport and Services Working Group                   J. Kaippallimalil
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                           S. Gundavelli
-Expires: 21 June 2024                                              Cisco
+Expires: 23 June 2024                                              Cisco
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                        19 December 2023
+                                                        21 December 2023
 
 
              Media Header Extensions for Wireless Networks
@@ -72,7 +72,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2024.
+   This Internet-Draft will expire on 23 June 2024.
 
 Copyright Notice
 
@@ -105,13 +105,13 @@ Table of Contents
        5.2.6.  Packet Counter
        5.2.7.  Timestamp
      5.3.  Metadata Handling
-     5.4.  Metadata Transport
-   6.  Common Deployments
-     6.1.  Data Center Deployment
-     6.2.  Security Gateways
-     6.3.  Outer UDP Packet with MED Option
-   7.  IANA Considerations
-   8.  Security Considerations
+   6.  Metadata Transport
+   7.  Common Deployments
+     7.1.  Data Center Deployment
+     7.2.  Security Gateways
+     7.3.  Outer UDP Packet with MED Option
+   8.  IANA Considerations
+   9.  Security Considerations
    Acknowledgments
    References
      Normative References
@@ -222,7 +222,7 @@ Table of Contents
        MED provides reasonable trade-offs in terms of lookup efficiency
        and protocol overhead.  Section 5.3 describes transport and the
        MED UDP option.  Some examples of deployment are provided in
-       Section 6.
+       Section 7.
 
 2.  Conventions and Definitions
 
@@ -339,7 +339,7 @@ Table of Contents
    are insecure network segments in between, all packets that carry the
    metadata in the MED UDP option must be secured with encryption
    between these segments (e.g., secure GRE/VXLAN or MASQUE tunnel).
-   Section 6 describes a few common deployments.
+   Section 7 describes a few common deployments.
 
    The application server (Server in Figure 1) is responsible for
    inserting the metadata in the UDP option.  The application server
@@ -675,7 +675,7 @@ Table of Contents
    has a trust relationship.  The metadata is used to prioritize, defer
    or drop packets of an MDU when radio resources are limited.
 
-5.4.  Metadata Transport
+6.  Metadata Transport
 
    Metadata between the application and wireless network is sent in each
    media packet to allow the wireless network to classify the group of
@@ -769,12 +769,12 @@ Table of Contents
    UDP MED option to ensure that the origin/destination network comply
    with the policies of the domain.
 
-6.  Common Deployments
+7.  Common Deployments
 
    This section provides a few examples of common deployments and the
    use of the MED UDP option to carry media metadata.
 
-6.1.  Data Center Deployment
+7.1.  Data Center Deployment
 
    In this deployment scenario, the UDP source (i.e., App Server) and
    the wireless network entity (i.e., Wireless Node) are within the same
@@ -804,7 +804,7 @@ Table of Contents
    the classification for packets of an MDU to share the same QoS and
    congestion handling in the wireless network.
 
-6.2.  Security Gateways
+7.2.  Security Gateways
 
    In this deployment scenario, the UDP sender (i.e, App Server) and the
    wireless network entity (i.e., Wireless Node) have a trust
@@ -826,7 +826,7 @@ Table of Contents
 
       Figure 11: Security Gateways between Server and Wireless network
 
-   As in Section 6.1, the UDP MED option is inserted by the Application
+   As in Section 7.1, the UDP MED option is inserted by the Application
    Server and forwarded.  The security gateways encrypt the packet
    across the insecure network segment.  The Wireless Node processes the
    metadata in the MED UDP option and forwards the packet to the client
@@ -835,7 +835,7 @@ Table of Contents
    for packets of an MDU to share the same QoS and congestion handling
    in the wireless network.
 
-6.3.  Outer UDP Packet with MED Option
+7.3.  Outer UDP Packet with MED Option
 
    In this deployment scenario, the UDP sender (i.e, App Server) and the
    wireless network entity (i.e., Wireless Node) establish a UDP tunnel
@@ -872,7 +872,7 @@ Table of Contents
    for packets of an MDU to share the same QoS and congestion handling
    in the wireless network.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    IANA request to assign new kind from UDP option registry to be set by
    IANA for [I-D.ietf-tsvwg-udp-options].
@@ -881,7 +881,7 @@ Table of Contents
       -----------------------------------------------------
       TBA1      18         Media Metadata (MED)
 
-8.  Security Considerations
+9.  Security Considerations
 
    Metadata in the UDP option MED must only be exchanged between
    entities that have a trust relationship that permits sending/
@@ -1005,7 +1005,7 @@ Appendix A.  Gaps and Requirements
    Section 1 outlined the issues around providing high throughput and
    low latency when link capacity fluctuates in very short periods of
    time as is the case in a wireless network.  Some deployment examples
-   are also shown in Section 6.  This applies not only in wireless
+   are also shown in Section 7.  This applies not only in wireless
    downstream, but also for upstream.  [TR.22.847-3GPP], section 5.8
    describes an Industry 4.0 use case which includes support for various
    aspects to optimize production some of which use enhanced media.
@@ -1115,7 +1115,7 @@ B.1.  Media Metadata Inserted By Media Application
    network.  Since media headers are encrypted, the application would
    provide this information in a header that the wireless node can
    inspect.  One option is to send the metadata in a new UDP option and
-   this is described in the main body of this document (see Section 5.4
+   this is described in the main body of this document (see Section 6
    for UDP transport details).  Another option is to transport the
    metadata in a MASQUE tunnel between the media/application server and
    the wireless router.
