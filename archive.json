@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-21T01:09:05.317339+00:00",
+  "timestamp": "2023-12-24T01:13:33.805473+00:00",
   "repo": "SpencerDawkins/media-hdr-wireless",
   "labels": [
     {
@@ -49,6 +49,57 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOKmtWU856XvjB",
+      "title": "Add obfuscation description",
+      "url": "https://github.com/SpencerDawkins/media-hdr-wireless/issues/1",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-12-21T20:51:28Z",
+      "updatedAt": "2023-12-21T20:51:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOKmtWU856XvwL",
+      "title": "Remove end-to-end option, use only tunneling mode",
+      "url": "https://github.com/SpencerDawkins/media-hdr-wireless/issues/2",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-12-21T20:52:16Z",
+      "updatedAt": "2023-12-21T20:52:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOKmtWU856YEWV",
+      "title": "change draft from \"Standard\" to \"Experimental",
+      "url": "https://github.com/SpencerDawkins/media-hdr-wireless/issues/3",
+      "state": "OPEN",
+      "author": "John-Kaippallimalil",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-12-21T22:25:48Z",
+      "updatedAt": "2023-12-21T22:26:41Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
