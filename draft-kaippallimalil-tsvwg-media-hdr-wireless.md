@@ -1,7 +1,7 @@
 ---
 title: "Media Header Extensions for Wireless Networks"
 abbrev: "Media Header Extensions"
-category: std
+category: info
 
 docname: draft-kaippallimalil-tsvwg-media-hdr-wireless-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
