@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-08T01:05:04.748195+00:00",
+  "timestamp": "2024-02-11T01:10:51.989674+00:00",
   "repo": "SpencerDawkins/media-hdr-wireless",
   "labels": [
     {
@@ -96,9 +96,17 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-12-21T22:25:48Z",
-      "updatedAt": "2023-12-21T22:26:41Z",
+      "updatedAt": "2024-02-09T21:41:35Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "JohnKaippallimalil",
+          "authorAssociation": "NONE",
+          "body": "Actually, this will be Informational.",
+          "createdAt": "2024-02-09T21:41:33Z",
+          "updatedAt": "2024-02-09T21:41:33Z"
+        }
+      ]
     }
   ],
   "pulls": []
