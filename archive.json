@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-11T01:10:51.989674+00:00",
+  "timestamp": "2024-02-13T01:06:32.589304+00:00",
   "repo": "SpencerDawkins/media-hdr-wireless",
   "labels": [
     {
@@ -107,6 +107,22 @@
           "updatedAt": "2024-02-09T21:41:33Z"
         }
       ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOKmtWU85_BYHI",
+      "title": "Add requirements in main body of draft",
+      "url": "https://github.com/SpencerDawkins/media-hdr-wireless/issues/4",
+      "state": "OPEN",
+      "author": "JohnKaippallimalil",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Requirements for applications to provide metadata for QoS and traffic shaping are not explicitly stated.",
+      "createdAt": "2024-02-12T22:05:53Z",
+      "updatedAt": "2024-02-12T22:05:53Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
