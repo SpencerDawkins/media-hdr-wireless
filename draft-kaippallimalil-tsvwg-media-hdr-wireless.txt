@@ -5,10 +5,10 @@
 Transport and Services Working Group                   J. Kaippallimalil
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                           S. Gundavelli
-Expires: 23 June 2024                                              Cisco
+Expires: 30 August 2024                                            Cisco
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                        21 December 2023
+                                                        27 February 2024
 
 
              Media Header Extensions for Wireless Networks
@@ -54,8 +54,7 @@ About This Document
    https://www.ietf.org/mailman/listinfo/tsvwg/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/https://github.com/SpencerDawkins/media-hdr-
-   wireless.
+   https://github.com/SpencerDawkins/media-hdr-wireless.
 
 Status of This Memo
 
@@ -72,11 +71,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 June 2024.
+   This Internet-Draft will expire on 30 August 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -934,9 +933,9 @@ Normative References
    [I-D.ietf-avtcore-rtp-over-quic]
               Ott, J., Engelbart, M., and S. Dawkins, "RTP over QUIC
               (RoQ)", Work in Progress, Internet-Draft, draft-ietf-
-              avtcore-rtp-over-quic-07, 23 October 2023,
+              avtcore-rtp-over-quic-08, 12 February 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-
-              rtp-over-quic-07>.
+              rtp-over-quic-08>.
 
    [I-D.ietf-tsvwg-udp-options]
               Touch, J. D., "Transport Options for UDP", Work in
