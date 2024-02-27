@@ -20,7 +20,7 @@ venue:
   type: Working Group
   mail: tsvwg@ietf.org
   arch: https://mailarchive.ietf.org/arch/browse/tsvwg/
-  github: https://github.com/SpencerDawkins/media-hdr-wireless
+  github: SpencerDawkins/media-hdr-wireless
   latest: https://spencerdawkins.github.io/media-hdr-wireless/#go.draft-kaippallimalil-tsvwg-media-hdr-wireless.html
 
 author:
