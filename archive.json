@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-27T01:05:05.602873+00:00",
+  "timestamp": "2024-02-29T01:04:56.626250+00:00",
   "repo": "SpencerDawkins/media-hdr-wireless",
   "labels": [
     {
@@ -125,5 +125,68 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 5,
+      "id": "PR_kwDOKmtWU85oEVfi",
+      "title": "fix GitHub attribute so the correct URL is built into the html and tx\u2026",
+      "url": "https://github.com/SpencerDawkins/media-hdr-wireless/pull/5",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026t output",
+      "createdAt": "2024-02-27T16:14:10Z",
+      "updatedAt": "2024-02-27T19:31:28Z",
+      "baseRepository": "SpencerDawkins/media-hdr-wireless",
+      "baseRefName": "main",
+      "baseRefOid": "87a0792d3cf9028756476d21d8fe33ff5a7209de",
+      "headRepository": "danwing/media-hdr-wireless",
+      "headRefName": "patch-1",
+      "headRefOid": "a5c17ca2e530639d8b444d9ba7690738d46c3693",
+      "closedAt": "2024-02-27T19:31:28Z",
+      "mergedAt": "2024-02-27T19:31:28Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "acc1752a9da60ec4427e2b0212f14e668c7bd9f2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKmtWU85xhn4d",
+          "commit": {
+            "abbreviatedOid": "a5c17ca"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-27T19:30:20Z",
+          "updatedAt": "2024-02-27T19:30:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "**WOW**. @danwing, thank you for spotting that! I didn't realize what @martinthomson/i-d-template was prefixing the URL I was providing (so the result was **https://github.com/https://github.com**/SpencerDawkins/media-hdr-wireless). It's fine that it works that way, it's just that arch: doesn't work the same way. I'm merging this, and going off to see what my other drafts look like .... ",
+              "createdAt": "2024-02-27T19:30:20Z",
+              "updatedAt": "2024-02-27T19:30:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKmtWU85xhn9z",
+          "commit": {
+            "abbreviatedOid": "a5c17ca"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-27T19:30:32Z",
+          "updatedAt": "2024-02-27T19:30:32Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }
